@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lift Simulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+        }
+
+        .lift-container {
+            width: 300px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            border: 10px solid #777; 
+            background-color: #999; 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden; /* Ensure lift stays within container */
+        }
+
+        .floor {
+            height: 100px;
+            line-height: 100px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background-color: #f8f8f8;
+            font-size: 1.2em;
+            color: #333;
+            position: relative;
+            z-index: 2;
+        }
+
+        .lift {
+            position: absolute; /* Changed to absolute to properly control the position */
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: bottom 0.5s ease-in-out;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            bottom: 0; /* Start at the bottom */
+            display: flex; /* Ensure inner divs are displayed properly */
+        }
+
+        .lift-door {
+            width: 50%;
+            height: 100%;
+            background: #0056b3;
+            position: absolute;
+            top: 0;
+            transition: transform 0.5s ease-in-out; /* Smooth door opening */
+        }
+
+        .left-door {
+            left: 0;
+            transform-origin: right;
+        }
+
+        .right-door {
+            right: 0;
+            transform-origin: left;
+        }
+
+        .lift.open .left-door {
+            transform: translateX(-100%);
+        }
+
+        .lift.open .right-door {
+            transform: translateX(100%);
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            margin: 5px;
+            display: flex;
+            font-size: 16px;
+            background: #007bff;
+            display: inline-block;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+        /* Add this to your existing CSS */
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5; /* Adjust opacity to indicate disabled state */
+    border: 2px solid red; /* Red border for disabled state */
+    position: relative; /* To position the icon */
+}
+
+.btn:disabled::after {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px; /* Adjust icon size */
+    height: 24px;
+    pointer-events: none; /* Prevent interaction with the icon */
+}
+
+    </style>
+</head>
+<body>
+    <div class="lift-container">
+        <div class="floor" id="floor3">Floor 3</div>
+        <div class="floor" id="floor2">Floor 2</div>
+        <div class="floor" id="floor1">Floor 1</div>
+        <div class="floor" id="floor0">Ground</div>
+        <div class="floor" id="floor-1">Basement</div>
+        <div class="lift" id="lift">
+            <div class="lift-door left-door"></div>
+            <div class="lift-door right-door"></div>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="4" class="btn" data-floor="-1">Basement</button>
+        <button id="3" class="btn" data-floor="0">Ground</button>
+        <button id="2" class="btn" data-floor="1">Floor 1</button>
+        <button id="1" class="btn" data-floor="2">Floor 2</button>
+        <button id="0" class="btn" data-floor="3">Floor 3</button>
+    </div>
+    <script src="lift.js"></script>
+</body>
+</html>
